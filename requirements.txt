@@ -1,0 +1,4 @@
+openpyxl
+mysql-connector-python
+pymysql == 1.1.0
+pyodbc

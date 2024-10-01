@@ -18,7 +18,7 @@ default_args = {
 
 
 def load_data_to_dataframe():
-    path = "/opt/airflow/data/[rms].[E01OrderHeader].csv"
+    path = "/opt/airflow/data/[rms].[E01OrderItems].csv"
     df = pd.read_csv(path, nrows=100)
     return df
 
@@ -27,7 +27,7 @@ def load_data_to_pgdb():
     df = load_data_to_dataframe()
     engine = create_engine(postgres_engine())
     df.to_sql(
-        "E01OrderHeader", engine, if_exists="append", schema="public", index=False
+        "E01OrderItems", engine, if_exists="append", schema="public", index=False
     )
 
 

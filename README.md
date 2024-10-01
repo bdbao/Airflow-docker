@@ -58,7 +58,7 @@ initdb YOUR_ARBITRARY_PATH/postgresDB
 
 psql postgres
     \l # list all db
-    CREATE DATABASE forairflow;
+    CREATE DATABASE db_airflow;
     
     # delete db
     SELECT pg_terminate_backend(pg_stat_activity.pid)
@@ -84,4 +84,4 @@ psql postgres
 ```
 
 Click **CSV_to_Postgres_Pipeline** in Airflow, then navigate to **Graph** -> Click on **Node** -> **Log** to view the output console.
-Re-run when edit in `dags/` scripts.
+Re-run once editting in `dags/` scripts.

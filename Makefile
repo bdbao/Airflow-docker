@@ -6,7 +6,8 @@ start:
 	echo "Starting $(POSTGRES_NAME), $(MYSQL_NAME) and container $(airflow-docker)..."
 	brew services start $(POSTGRES_NAME)
 	brew services start $(MYSQL_NAME)
-	docker start $(shell docker ps -a -q --filter "name=$(CONTAINER_NAME)")
+	docker compose up -d
+#	docker start $(shell docker ps -a -q --filter "name=$(CONTAINER_NAME)")
 	echo "Airflow is running at http://localhost:8080"
 
 stop:
@@ -28,5 +29,6 @@ renew:
 
 clean:
 	rm -rdf logs/*
+	docker compose down
 
 .PHONY: start stop restart renew clean

@@ -14,8 +14,8 @@ default_args = {
 
 
 def load_data_to_dataframe():
-    path = "/opt/airflow/data/[rms].[E01OrderHeader].csv"
-    df = pd.read_csv(path)
+    path = "/opt/airflow/data/[rms].[E00OrderType].xlsx"
+    df = pd.read_excel(path, sheet_name="_rms_ _E00OrderType_", nrows=100)
     return df
 
 
@@ -23,7 +23,7 @@ def load_data_to_dataframe():
 def load_data_to_mysql():
     df = load_data_to_dataframe()
     df.to_sql(
-        "E01OrderHeader",
+        "E00OrderType",
         create_engine(mysql_engine()),
         if_exists="replace", # or "append"
         index=False,
@@ -31,9 +31,9 @@ def load_data_to_mysql():
 
 
 with DAG(
-    dag_id="CSV_to_MySQL_Pipeline",
+    dag_id="EXCEL_to_MySQL_Pipeline",
     default_args=default_args,
-    description="Update CSV file to MySQL",
+    description="Update Excel file to MySQL",
     start_date=datetime(2023, 10, 26),
     schedule_interval="@daily",
     catchup=False,

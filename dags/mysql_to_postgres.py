@@ -40,7 +40,7 @@ def load_data_to_pgdb():
 
 
 with DAG(
-    dag_id="MySQL_Postgres_Pipeline",
+    dag_id="MySQL_to_Postgres_Pipeline",
     default_args=default_args,
     description="Update MySQL to PostgreSQL",
     start_date=datetime(2023, 9, 10),

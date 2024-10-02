@@ -3,8 +3,6 @@ from urllib.parse import quote_plus
 
 from module_connect.postgres import postgres_engine
 import pandas as pd
-import psycopg2
-import pyodbc
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from sqlalchemy import create_engine
@@ -21,10 +19,10 @@ default_args = {
 def extract_data_from_ggsheet():
     googlesheetID = "15ZEKDLO3t5Ag-EeAD93PxxDhRoiygEpd_TWwpn9LXfc"
     worksheet = "728181631"
-    URL = "https://docs.google.com/spreadsheets/d/{0}/export?gid={1}&format=csv".format(
+    myURL = "https://docs.google.com/spreadsheets/d/{0}/export?gid={1}&format=csv".format(
         googlesheetID, worksheet
     )
-    df = pd.read_csv(URL)
+    df = pd.read_csv(myURL)
     return df
 
 def load_data_to_pgdb():

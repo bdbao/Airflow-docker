@@ -15,8 +15,8 @@ default_args = {
 
 
 def load_data_to_dataframe():
-    path = "/opt/airflow/data/data.csv"
-    df = pd.read_csv(path, nrows=100)
+    path = "/opt/airflow/data/[rms].[E00OrderType].xlsx"
+    df = pd.read_excel(path, sheet_name="_rms_ _E00OrderType_", nrows=100)
     return df
 
 
@@ -28,14 +28,14 @@ def load_data_to_pgdb():
         conn.execute("CREATE SCHEMA IF NOT EXISTS airflow;")
 
     df.to_sql(
-        "Invoice", engine, if_exists="replace", schema="airflow", index=False
+        "E00OrderType", engine, if_exists="replace", schema="airflow", index=False
     )
 
 
 with DAG(
-    dag_id="CSV_to_Postgres_Pipeline",
+    dag_id="EXCEL_to_Postgres_Pipeline",
     default_args=default_args,
-    description="CSV to PostgreSQL",
+    description="EXCEL to PostgreSQL",
     start_date=datetime(2024, 10, 1),
     schedule_interval="@daily",
     catchup=False,

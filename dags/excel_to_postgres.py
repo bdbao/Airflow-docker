@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-
 from module_connect.postgres import postgres_engine
 import pandas as pd
 from airflow import DAG

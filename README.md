@@ -149,6 +149,3 @@ You need to enable public key retrieval by changing the connection settings.
 2. Step 2: Click on **Edit Connection**.
 3. Step 3: Go to the **Driver Properties** tab.
 4. Step 4: Find or add the property **allowPublicKeyRetrieval** and set its value to **true**.
-
-
-

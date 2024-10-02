@@ -2,11 +2,8 @@ import os
 from dotenv import load_dotenv
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "./"))
-# print(BASE_DIR)
-
-# Load environment variables from the .env file (if present)
 load_dotenv(os.path.join(BASE_DIR, ".env"))
-
+print("BASE_DIR:", BASE_DIR)
 
 class Settings:
     def __init__(self, **kwargs):
@@ -23,6 +20,5 @@ class Settings:
         self.MYSQL_USER = os.getenv("MYSQL_USER", "")
         self.MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
         self.MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "")
-
 
 settings = Settings()

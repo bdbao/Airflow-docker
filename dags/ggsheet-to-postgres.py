@@ -19,19 +19,18 @@ default_args = {
 
 # extract data from ggsheet
 def extract_data_from_ggsheet():
-    googlesheetID = "1HYb5SItSYDNPrfmy7v6_oUAVX3z5QbvpVY3peiQAI_s"
-    worksheet = "893770031"
+    googlesheetID = "15ZEKDLO3t5Ag-EeAD93PxxDhRoiygEpd_TWwpn9LXfc"
+    worksheet = "728181631"
     URL = "https://docs.google.com/spreadsheets/d/{0}/export?gid={1}&format=csv".format(
         googlesheetID, worksheet
     )
     df = pd.read_csv(URL)
     return df
 
-
 def load_data_to_pgdb():
     df = extract_data_from_ggsheet()
     engine = create_engine(postgres_engine())
-    df.to_sql("E00Status", engine, if_exists="append", schema="public", index=False)
+    df.to_sql("E00Status", engine, if_exists="replace", schema="public", index=False)
 
 
 with DAG(

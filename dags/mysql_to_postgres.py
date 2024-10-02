@@ -1,13 +1,7 @@
 from datetime import datetime, timedelta
-from urllib.parse import quote_plus
-
 from module_connect.mysql import connect_mysql
 from module_connect.postgres import postgres_engine
-import mysql.connector
-import pymysql
 import pandas as pd
-import psycopg2
-import pyodbc
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from sqlalchemy import create_engine
@@ -23,10 +17,16 @@ default_args = {
 # extract data from sql server
 def extract_data_from_mysql():
     conn = connect_mysql()
-    # SELECT * FROM Database.Table
-    query = """SELECT *
-    	        FROM db_airflow.E00Status;"""
-    df = pd.read_sql(query, conn)
+    # SELECT * FROM Table (We already specify Database in connection)
+    query = """ SELECT InvoiceNo,
+                    StockCode,
+                    Description,
+                    Quantity,
+                    InvoiceDate,
+                    UnitPrice,
+                    CustomerID,
+                    Country FROM Invoice; """
+    df = pd.read_sql(query, conn) 
     return df
 
 
@@ -39,12 +39,12 @@ def load_data_to_pgdb():
         conn.execute("CREATE SCHEMA IF NOT EXISTS airflow;")
 
     df.to_sql(
-        "E00Status_fromMySQL", engine, if_exists="append", schema="airflow", index=False
+        "Invoice_fromMySQL", engine, if_exists="append", schema="airflow", index=False
     )
 
 
 with DAG(
-    dag_id="MySQL_to_Postgres_Pipeline",
+    dag_id="MySQL_to_PostgreSQL_Pipeline",
     default_args=default_args,
     description="Update MySQL to PostgreSQL",
     start_date=datetime(2023, 9, 10),

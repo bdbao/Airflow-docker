@@ -14,8 +14,8 @@ default_args = {
 
 
 def load_data_to_dataframe():
-    path = "/opt/airflow/data/[rms].[E01OrderHeader].csv"
-    df = pd.read_csv(path)
+    path = "/opt/airflow/data/data.csv"
+    df = pd.read_csv(path, nrows=100)
     return df
 
 
@@ -23,7 +23,7 @@ def load_data_to_dataframe():
 def load_data_to_mysql():
     df = load_data_to_dataframe()
     df.to_sql(
-        "E01OrderHeader",
+        "Invoice",
         create_engine(mysql_engine()),
         if_exists="replace", # or "append"
         index=False,

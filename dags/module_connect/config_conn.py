@@ -17,5 +17,12 @@ class Settings:
         self.MYUSER = os.getenv("MYUSER", "")
         self.DATABASE = os.getenv("DATABASE", "")
 
+        self.MYSQL_URL_CONNECT = os.getenv("MYSQL_URL_CONNECT", "")
+        self.MYSQL_HOST = os.getenv("MYSQL_HOST", "")
+        self.MYSQL_PORT = os.getenv("MYSQL_PORT", "")
+        self.MYSQL_USER = os.getenv("MYSQL_USER", "")
+        self.MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
+        self.MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "")
+
 
 settings = Settings()

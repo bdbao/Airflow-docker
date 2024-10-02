@@ -1,4 +1,4 @@
-## Demo Airflow tasks on Docker
+# Demo Airflow tasks on Docker
 - Fetching `docker-compose.yaml`
 ```bash
 cd Airlow-docker
@@ -8,7 +8,7 @@ curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.6.2/docker-compose.y
 ```bash
 mkdir -p ./dags ./logs ./plugins ./config
 ```
-1. Setting the right user (optional): 
+Setting the right user (optional): 
 ```bash
 echo -e "AIRFLOW_UID=$(id -u) \nAIRFLOW_GID=0" > .env
 ```

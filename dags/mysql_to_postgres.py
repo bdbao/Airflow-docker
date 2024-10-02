@@ -23,9 +23,9 @@ default_args = {
 # extract data from sql server
 def extract_data_from_mysql():
     conn = connect_mysql()
-    query = """SELECT id, madonhang, ngaydat, masanpham, slban, dongia,
-    				doanhthu, trangthaidonghang
-    			FROM sales.fact_sales;"""
+    # SELECT * FROM Database.Table
+    query = """SELECT *
+    	        FROM db_airflow.E00Status;"""
     df = pd.read_sql(query, conn)
     return df
 
@@ -34,8 +34,12 @@ def extract_data_from_mysql():
 def load_data_to_pgdb():
     df = extract_data_from_mysql()
     engine = create_engine(postgres_engine())
+
+    with engine.connect() as conn:
+        conn.execute("CREATE SCHEMA IF NOT EXISTS airflow;")
+
     df.to_sql(
-        "fact_sales", engine, if_exists="append", schema="public", index=False
+        "E00Status_fromMySQL", engine, if_exists="append", schema="airflow", index=False
     )
 
 

@@ -9,7 +9,8 @@ cd Airflow-docker
 mkdir -p ./logs ./plugins ./config
 echo -e "AIRFLOW_UID=$(id -u) \nAIRFLOW_GID=0" > .env
 
-docker build --no-cache . --tag extending_airflow:latest # if updated requirements.txt: run `docker compose down` and delete all image, then run this command again.
+# if updated requirements.txt: `docker compose down` -> delete all related images (command is bellow) -> run this command again.
+docker build --no-cache . --tag extending_airflow:latest 
 
 brew install postgresql@16 # or: postgresql
 brew install mysql
@@ -30,10 +31,11 @@ mysql -u root
     FLUSH PRIVILEGES;
     \q
 ```
-- Open **http://localhost:8080**.\
-(Default account was created with: User: **airflow** / Password: **airflow**)
+- Open **http://localhost:8080**. (Default account was created with: User: **airflow** / Password: **airflow**)
 - Open **DBeaver** to view databases.
-- Stopping all services by `make stop`.
+  
+Stopping all services by `make stop`.\
+Delete all images relating to Airflow: `docker images | grep "airflow" | awk '{print $3}' | xargs docker rmi -f && docker image prune -f && docker rmi -f postgres:13 redis`.
 
 # Build from scratch
 ```bash

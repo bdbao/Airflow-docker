@@ -19,7 +19,6 @@ def load_data_to_dataframe():
     return df
 
 
-# define function load data to Mysql Database
 def load_data_to_mysql():
     df = load_data_to_dataframe()
     df.to_sql(

@@ -13,7 +13,6 @@ default_args = {
 }
 
 
-# extract data from ggsheet
 def extract_data_from_ggsheet():
     googlesheetID = "15ZEKDLO3t5Ag-EeAD93PxxDhRoiygEpd_TWwpn9LXfc"
     worksheet = "728181631"
@@ -24,7 +23,6 @@ def extract_data_from_ggsheet():
     return df
 
 
-# define function load data to Mysql Database
 def load_data_to_mysql():
     df = extract_data_from_ggsheet()
     df.to_sql(

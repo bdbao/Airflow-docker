@@ -15,7 +15,7 @@ default_args = {
 
 def load_data_to_dataframe():
     path = "/opt/airflow/data/data.csv"
-    df = pd.read_csv(path, nrows=100)
+    df = pd.read_csv(path, nrows=50)
     return df
 
 

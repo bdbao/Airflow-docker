@@ -1,17 +1,54 @@
-# Demo Airflow tasks on Docker
+# Demonstration tasks using Airflow on Docker
+---
+# Quick Start
+- Open **Docker Desktop**.
+```bash
+git clone https://github.com/bdbao/Airflow-docker
+cd Airflow-docker
+
+mkdir -p ./logs ./plugins ./config
+echo -e "AIRFLOW_UID=$(id -u) \nAIRFLOW_GID=0" > .env
+
+docker build --no-cache . --tag extending_airflow:latest # if updated requirements.txt: run `docker compose down` and delete all image, then run this command again.
+
+brew install postgresql@16 # or: postgresql
+brew install mysql
+make start
+
+export LC_ALL="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+initdb YOUR_ARBITRARY_PATH/postgresDB
+psql postgres
+    CREATE DATABASE db_airflow;
+    CREATE USER user_airflow WITH PASSWORD '1234';
+    ALTER USER user_airflow WITH SUPERUSER;
+    \q
+mysql -u root
+    CREATE DATABASE db_airflow;
+    CREATE USER 'user_airflow'@'localhost' IDENTIFIED BY 'admin@123';
+    GRANT ALL PRIVILEGES ON *.* TO 'user_airflow'@'localhost' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    \q
+```
+- Open **http://localhost:8080**.\
+(Default account was created with: User: **airflow** / Password: **airflow**)
+- Open **DBeaver** to view databases.
+- Stopping all services by `make stop`.
+
+# Build from scratch
+```bash
+mkdir Airlow-docker && cd Airlow-docker
+```
 - Fetching `docker-compose.yaml`
 ```bash
-cd Airlow-docker
 curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.6.2/docker-compose.yaml'
 ```
 - Initialize environment:
 ```bash
 mkdir -p ./dags ./logs ./plugins ./config
-```
-Setting the right user (optional): 
-```bash
 echo -e "AIRFLOW_UID=$(id -u) \nAIRFLOW_GID=0" > .env
 ```
+- Open **Docker Desktop**.
 - Initialize the database:
 ```bash
 docker compose up airflow-init
@@ -20,8 +57,7 @@ docker compose up airflow-init
 ```bash
 docker compose up -d
 ```
-Open **http://localhost:8080**
-
+Open **http://localhost:8080**.\
 (Default account was created with: User: **airflow** / Password: **airflow**)
 
 ## Update Library
@@ -35,14 +71,10 @@ Open **http://localhost:8080**
 - Build the extended image by command
 ```bash
 docker build . --tag extending_airflow:latest
-```
-```bash
 docker-compose up -d --no-deps --build airflow-webserver airflow-scheduler
 ```
-- Modify the volume key to include the additional paths want to mount (at line 79)
-  ```
-  - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
-  ```
+- Modify the volume key to include the additional paths want to mount (at line 79):\
+`- ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data`
 - Run full Docker services
 ```bash
 docker compose down
@@ -52,7 +84,8 @@ docker ps
 docker exec -it CONTAINER_ID bash
 ```
 
-## Host PostgreSQL server
+## Host Database server
+### Host PostgreSQL server
 ```bash
 brew install postgresql
 brew services start postgresql@16 # (or postgresql)
@@ -94,7 +127,7 @@ psql postgres
     \q # quit psql postgres
 ```
 
-## Host MySQL server
+### Host MySQL server
 ```bash
 brew install mysql
 brew services start mysql
@@ -122,7 +155,6 @@ mysql -u root -p # if you’ve set a password
  
     # add new user
     CREATE USER 'user_airflow'@'localhost' IDENTIFIED BY 'admin@123'; # (use % for any host)
-    GRANT ALL PRIVILEGES ON *.* TO 'user_airflow'@'localhost'; # (optional)
     GRANT ALL PRIVILEGES ON *.* TO 'user_airflow'@'localhost' WITH GRANT OPTION;
     FLUSH PRIVILEGES; # apply changes
     SHOW GRANTS FOR 'user_airflow'@'%';
@@ -143,7 +175,7 @@ Re-run (Click **Play button** "Trigger DAG") once editting in `dags/` scripts.
 ## View database on DBeaver
 Open **DBeaver** to view overall database PostgreSQL (by user_airflow), MySQL (by root, or user_airflow).
 
-### Fix the Issue in DBeaver (for MySQL with user other than `root`)
+### Fix the Issue in DBeaver (view MySQL db with user other than `root`)
 You need to enable public key retrieval by changing the connection settings.
 1. Step 1: Open DBeaver and go to your MySQL connection.
 2. Step 2: Click on **Edit Connection**.

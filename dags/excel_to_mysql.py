@@ -15,7 +15,7 @@ default_args = {
 
 def load_data_to_dataframe():
     path = "/opt/airflow/data/[rms].[E00OrderType].xlsx"
-    df = pd.read_excel(path, sheet_name="_rms_ _E00OrderType_", nrows=100)
+    df = pd.read_excel(path, sheet_name="_rms_ _E00OrderType_", nrows=50)
     return df
 
 

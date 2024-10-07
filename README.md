@@ -59,7 +59,7 @@ docker compose up airflow-init
 ```bash
 docker compose up -d
 ```
-Open **http://localhost:8080**.\
+Open **http://localhost:8080**.
 (Default account was created with: User: **airflow** / Password: **airflow**)
 
 ## Update Library

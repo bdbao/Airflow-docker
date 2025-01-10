@@ -87,7 +87,7 @@ docker exec -it CONTAINER_ID bash
 ```
 
 ## Host Database server
-### Host PostgreSQL server
+### 1. PostgreSQL server
 ```bash
 brew install postgresql
 brew services start postgresql@16 # (or postgresql)
@@ -129,7 +129,7 @@ psql postgres
     \q # quit psql postgres
 ```
 
-### Host MySQL server
+### 2. MySQL server
 ```bash
 brew install mysql
 brew services start mysql
@@ -170,16 +170,45 @@ mysql -u root -p # if you’ve set a password
 
     \q # quit mysql
 ```
-## Manipulate on Airflow GUI
-Click **CSV_to_Postgres_Pipeline** in Airflow, then navigate to **Graph** -> Click on **Node** -> **Log** to view the output console.\
-Re-run (Click **Play button** "Trigger DAG") once editting in `dags/` scripts.
 
-## View database on DBeaver
+## Data Migration from MSSQL to Gooogle Cloud Platform
+1. Create a Google Cloud Project
+- Go to [Google Cloud Console](https://console.cloud.google.com).
+- Click **Select a Project** > **New Project**.
+- Provide a project name and click **Create**.
+2. Enable Required APIs
+- In the **Cloud Console**, navigate to **APIs & Services > Library**.
+- Enable the following APIs: **BigQuery API** and **Cloud Storage API**.
+3. Create a Service Account (User Principal)
+- Navigate to **IAM & Admin > Service Accounts**.
+- Click **+ Create Service Account**.
+- Provide a name (for example: *techdata-cloud @ zinc-union-443512-p7.iam.gserviceaccount.com*) for the service account and click **Create**.
+- Assign the role **BigQuery Admin** (for full BigQuery management access).
+- Click **Done**.
+4. Generate and Save Service Account Key (JSON)
+- Go back to **IAM & Admin > Service Accounts**.
+- Select the service account you just created.
+- Click **Keys > Add Key > Create New Key**.
+- Select **JSON** format and download the file.
+- Save the downloaded JSON file as: `./config/edtech.json`.
+5. (Optional) Access airflow-containers bash:
+    ```bash
+    docker exec -u root -it airflow-docker-airflow-worker-1 bash # similarly with: webserver-1, scheduler-1
+        apt-get install -y libgeos-dev
+        # some more libs
+    ```
+
+## Manipulate on GUI
+### 1. Airflow UI
+- Click **CSV_to_Postgres_Pipeline** in Airflow, then navigate to **Graph** -> Click on **Node** -> **Log** to view the output console.
+- Re-run (Click **Play button** "Trigger DAG") once editting in `dags/` scripts.
+
+### 2. View database on DBeaver
 Open **DBeaver** to view overall database PostgreSQL (by user_airflow), MySQL (by root, or user_airflow).
 
-### Fix the Issue in DBeaver (view MySQL db with user other than `root`)
-You need to enable public key retrieval by changing the connection settings.
-1. Step 1: Open DBeaver and go to your MySQL connection.
-2. Step 2: Click on **Edit Connection**.
-3. Step 3: Go to the **Driver Properties** tab.
-4. Step 4: Find or add the property **allowPublicKeyRetrieval** and set its value to **true**.
+- Fix **Issue in DBeaver**: View MySQL db with user other than `root` \
+    You need to enable public key retrieval by changing the connection settings.
+    1. Step 1: Open DBeaver and go to your MySQL connection.
+    2. Step 2: Click on **Edit Connection**.
+    3. Step 3: Go to the **Driver Properties** tab.
+    4. Step 4: Find or add the property **allowPublicKeyRetrieval** and set its value to **true**.

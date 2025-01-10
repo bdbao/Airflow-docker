@@ -128,6 +128,9 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    environment:
+      <<: *airflow-common-env
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/config/edwtech.json
 
   airflow-scheduler:
     <<: *airflow-common
@@ -143,6 +146,9 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    environment:
+      <<: *airflow-common-env
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/config/edwtech.json
 
   airflow-worker:
     <<: *airflow-common
@@ -157,6 +163,7 @@ services:
       start_period: 30s
     environment:
       <<: *airflow-common-env
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/config/edwtech.json
       # Required to handle warm shutdown of the celery workers properly
       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"

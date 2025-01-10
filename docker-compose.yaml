@@ -101,7 +101,7 @@ services:
     restart: always
 
   redis:
-    image: redis:latest #redis:7.4.1
+    image: redis:7.4.1
     expose:
       - 6379
     healthcheck:

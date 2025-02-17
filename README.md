@@ -12,7 +12,6 @@
   - [Manipulate on GUI](#manipulate-on-gui)
     - [Airflow UI](#airflow-ui)
     - [View database on DBeaver](#view-database-on-dbeaver)
-  - [More more](#more-more)
 
 # Quick Start
 - Open **Docker Desktop**.
@@ -238,6 +237,7 @@ Open **DBeaver** to view overall database PostgreSQL (by user_airflow), MySQL (b
     3. Step 3: Go to the **Driver Properties** tab.
     4. Step 4: Find or add the property **allowPublicKeyRetrieval** and set its value to **TRUE**.
 
+<!-- 
 ## More more
 - Reinstall requirements.txt:
 ```bash
@@ -247,6 +247,5 @@ docker compose up -d
 
 docker exec -it airflow-docker-airflow-webserver-1 bash
     python -c "import pymongo; print('pymongo is installed successfully')"
-
-
-```
+``` 
+-->

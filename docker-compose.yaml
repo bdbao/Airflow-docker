@@ -112,6 +112,18 @@ services:
       start_period: 30s
     restart: always
 
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user_airflow
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    volumes:
+      - mongodb-data:/data/db
+    restart: always
+
   airflow-webserver:
     <<: *airflow-common
     command: webserver
@@ -303,3 +315,4 @@ services:
 
 volumes:
   postgres-db-volume:
+  mongodb-data:

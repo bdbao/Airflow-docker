@@ -21,4 +21,11 @@ class Settings:
         self.MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
         self.MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "")
 
+        self.MONGO_URL_CONNECT = os.getenv("MONGO_URL_CONNECT", "")
+        self.MONGO_HOST = os.getenv("MONGO_HOST", "")
+        self.MONGO_PORT = os.getenv("MONGO_PORT", "")
+        self.MONGO_USER = os.getenv("MONGO_USER", "")
+        self.MONGO_PASSWORD = os.getenv("MONGO_PASSWORD", "")
+        self.MONGO_DATABASE = os.getenv("MONGO_DATABASE", "")
+
 settings = Settings()

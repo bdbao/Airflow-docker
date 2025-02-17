@@ -1,5 +1,19 @@
 # Demonstration tasks using Airflow on Docker
 ---
+- [Demonstration tasks using Airflow on Docker](#demonstration-tasks-using-airflow-on-docker)
+- [Quick Start](#quick-start)
+- [Build from scratch](#build-from-scratch)
+  - [Update Library](#update-library)
+  - [Host Database server](#host-database-server)
+    - [PostgreSQL server](#postgresql-server)
+    - [MySQL server](#mysql-server)
+    - [MongoDB server](#mongodb-server)
+  - [Data Migration from MSSQL to Gooogle Cloud Platform](#data-migration-from-mssql-to-gooogle-cloud-platform)
+  - [Manipulate on GUI](#manipulate-on-gui)
+    - [Airflow UI](#airflow-ui)
+    - [View database on DBeaver](#view-database-on-dbeaver)
+  - [More more](#more-more)
+
 # Quick Start
 - Open **Docker Desktop**.
 ```bash
@@ -87,7 +101,7 @@ docker exec -it CONTAINER_ID bash
 ```
 
 ## Host Database server
-### 1. PostgreSQL server
+### PostgreSQL server
 ```bash
 brew install postgresql
 brew services start postgresql@16 # (or postgresql)
@@ -129,7 +143,7 @@ psql postgres
     \q # quit psql postgres
 ```
 
-### 2. MySQL server
+### MySQL server
 ```bash
 brew install mysql
 brew services start mysql
@@ -170,6 +184,17 @@ mysql -u root -p # if you’ve set a password
 
     \q # quit mysql
 ```
+### MongoDB server
+Use [MongoDB Compass](https://www.mongodb.com/products/tools/compass).
+```bash
+show dbs
+
+use db_airflow
+db["Invoice_fromMySQL"].find()
+
+# use admin
+# db.grantRolesToUser("user_airflow", [{ role: "readWrite", db: "db_airflow" }])
+```
 
 ## Data Migration from MSSQL to Gooogle Cloud Platform
 1. Create a Google Cloud Project
@@ -199,11 +224,11 @@ mysql -u root -p # if you’ve set a password
     ```
 
 ## Manipulate on GUI
-### 1. Airflow UI
+### Airflow UI
 - Click **CSV_to_Postgres_Pipeline** in Airflow, then navigate to **Graph** -> Click on **Node** -> **Log** to view the output console.
 - Re-run (Click **Play button** "Trigger DAG") once editting in `dags/` scripts.
 
-### 2. View database on DBeaver
+### View database on DBeaver
 Open **DBeaver** to view overall database PostgreSQL (by user_airflow), MySQL (by root, or user_airflow).
 
 - Fix **Issue in DBeaver**: View MySQL db with user other than `root` \
@@ -211,4 +236,17 @@ Open **DBeaver** to view overall database PostgreSQL (by user_airflow), MySQL (b
     1. Step 1: Open DBeaver and go to your MySQL connection.
     2. Step 2: Click on **Edit Connection**.
     3. Step 3: Go to the **Driver Properties** tab.
-    4. Step 4: Find or add the property **allowPublicKeyRetrieval** and set its value to **true**.
+    4. Step 4: Find or add the property **allowPublicKeyRetrieval** and set its value to **TRUE**.
+
+## More more
+- Reinstall requirements.txt:
+```bash
+docker compose down --volumes
+docker compose build
+docker compose up -d
+
+docker exec -it airflow-docker-airflow-webserver-1 bash
+    python -c "import pymongo; print('pymongo is installed successfully')"
+
+
+```
